@@ -1,4 +1,4 @@
-const mint='3JrYmCNhD5axkyfyws8rQeWkbiauEQL685nK1eBYpump';
+const mint='6ntYxA5himR3CnUVi15D6bJK8tk6mS4TthMFoPgJpump';
 const mc=document.querySelector('#mc'),vol=document.querySelector('#vol'),updated=document.querySelector('#updated');
 const money=n=>{const v=Number(n||0);if(!v)return '—';return v>=1e9?`$${(v/1e9).toFixed(2)}B`:v>=1e6?`$${(v/1e6).toFixed(2)}M`:v>=1e3?`$${(v/1e3).toFixed(1)}K`:`$${v.toFixed(0)}`};
 async function refresh(){try{const r=await fetch(`https://api.dexscreener.com/latest/dex/tokens/${mint}`,{cache:'no-store'});const j=await r.json();const pair=(j.pairs||[]).filter(x=>x.chainId==='solana').sort((a,b)=>Number(b.liquidity?.usd||0)-Number(a.liquidity?.usd||0))[0];if(pair){mc.textContent=money(pair.marketCap||pair.fdv);vol.textContent=money(pair.volume?.h24);updated.textContent='live';}}catch{updated.textContent='offline'}}refresh();setInterval(refresh,15000);
